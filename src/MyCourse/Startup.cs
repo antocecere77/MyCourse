@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
@@ -20,7 +21,7 @@ namespace MyCourse
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IApplicationLifetime lifetime)
         {
 
             if(env.IsProduction()) 
@@ -31,6 +32,13 @@ namespace MyCourse
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+
+                //Aggiorno un file per notificare al BrowserSync che deve aggiornare la pagina
+                lifetime.ApplicationStarted.Register(() => 
+                    {
+                        string filePath = Path.Combine(env.ContentRootPath, "bin/reload.txt");
+                        File.WriteAllText(filePath, DateTime.Now.ToString());
+                    });
             }
 
             app.UseStaticFiles();
