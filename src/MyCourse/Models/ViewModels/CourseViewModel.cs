@@ -1,5 +1,6 @@
 using System;
 using System.Data;
+using MyCourse.Models.Entities;
 using MyCourse.Models.Enums;
 using MyCourse.Models.ValueTypes;
 
@@ -14,6 +15,19 @@ namespace MyCourse.Models.ViewModels
         public double Rating {get; set;}
         public Money FullPrice {get; set;}
         public Money CurrentPrice {get; set;}
+
+        public static CourseViewModel FromEntity(Course course)
+        {
+            return new CourseViewModel {
+                Id = course.Id,
+                Title = course.Title,
+                ImagePath = course.ImagePath,
+                Author = course.Author,
+                Rating = course.Rating,
+                CurrentPrice = course.CurrentPrice,
+                FullPrice = course.FullPrice
+            };
+        }
 
         public static CourseViewModel FromDataRow(DataRow courseRow)
         {
