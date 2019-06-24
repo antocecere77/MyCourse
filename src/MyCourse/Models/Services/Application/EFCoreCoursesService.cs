@@ -20,6 +20,7 @@ namespace MyCourse.Models.Services.Application
         public async Task<CourseDetailViewModel> GetCourseAsync(int id)
         {
             IQueryable<CourseDetailViewModel> queryLinq = dbContext.Courses
+                .AsNoTracking()
                 .Include(course => course.Lessons)
                 .Where(course => course.Id == id)
                 .Select(course => CourseDetailViewModel.FromEntity(course));
@@ -51,7 +52,9 @@ namespace MyCourse.Models.Services.Application
         public async Task<List<CourseViewModel>> GetCoursesAsync()
         {
             IQueryable<CourseViewModel> queryLinq = dbContext.Courses
+            .AsNoTracking()
             .Select(course => CourseViewModel.FromEntity(course));
+
             // .Select(course => 
             //     new CourseViewModel {
             //         Id = course.Id,
