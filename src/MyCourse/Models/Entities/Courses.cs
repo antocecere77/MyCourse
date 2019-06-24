@@ -23,7 +23,7 @@ namespace MyCourse.Models.Entities
             Lessons = new HashSet<Lesson>();
         }
 
-        public long Id { get; private set; }
+        public int Id { get; private set; }
         public string Title { get; private set; }
         public string Description { get; private set; }
         public string ImagePath { get; private set; }
@@ -59,7 +59,7 @@ namespace MyCourse.Models.Entities
             FullPrice = newFullPrice;
             CurrentPrice = newDiscountPrice;
         }
-
+ 
         public virtual ICollection<Lesson> Lessons { get; private set; }
     }
 }
