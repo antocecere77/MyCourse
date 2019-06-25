@@ -29,28 +29,28 @@ namespace MyCourse.Models.Services.Infrastructure
         {
             modelBuilder.HasAnnotation("ProductVersion", "2.2.4-servicing-10062");
 
-            modelBuilder.Entity<Course>(entity =>
-            {
-                entity.ToTable("Courses");  //Superfluo se la tabella si chiama come la proprietà
-                entity.HasKey(course => course.Id); //Superfluo se la proprietà si chiama Id oppure CoursesId
-                //entity.HasKey(course => new { course.Id, course.Author }); //Per chiavi primarie composite (è importante rispettare l'ordine dei campi)
+            // modelBuilder.Entity<Course>(entity =>
+            // {
+            //     entity.ToTable("Courses");  //Superfluo se la tabella si chiama come la proprietà
+            //     entity.HasKey(course => course.Id); //Superfluo se la proprietà si chiama Id oppure CoursesId
+            //     //entity.HasKey(course => new { course.Id, course.Author }); //Per chiavi primarie composite (è importante rispettare l'ordine dei campi)
 
-                //Mapping per gli owned types
-                entity.OwnsOne(course => course.CurrentPrice, builder => {
-                    builder.Property(money => money.Currency)
-                    .HasConversion<string>()  //Converte la string con l'enum
-                    .HasColumnName("CurrentPrice_Currency"); //Superfluo perché le nostre colonne seguono già la convenzione di nomi
-                    builder.Property(money => money.Amount).HasColumnName("CurrentPrice_Amount"); //Superfluo perché le nostre colonne seguono già la convenzione di nomi
-                });
+            //     //Mapping per gli owned types
+            //     entity.OwnsOne(course => course.CurrentPrice, builder => {
+            //         builder.Property(money => money.Currency)
+            //         .HasConversion<string>()  //Converte la string con l'enum
+            //         .HasColumnName("CurrentPrice_Currency"); //Superfluo perché le nostre colonne seguono già la convenzione di nomi
+            //         builder.Property(money => money.Amount).HasColumnName("CurrentPrice_Amount"); //Superfluo perché le nostre colonne seguono già la convenzione di nomi
+            //     });
 
-                entity.OwnsOne(course => course.FullPrice, builder => {
-                    builder.Property(money => money.Currency).HasConversion<string>();  //Converte la string con l'enum                   
-                });
+            //     entity.OwnsOne(course => course.FullPrice, builder => {
+            //         builder.Property(money => money.Currency).HasConversion<string>();  //Converte la string con l'enum                   
+            //     });
 
-                //Mapping per le relazioni
-                entity.HasMany(course => course.Lessons)
-                    .WithOne(lesson => lesson.Course)
-                    .HasForeignKey(lesson => lesson.CourseId);  //Superflua se la proprietà si chiama CourseId
+            //     //Mapping per le relazioni
+            //     entity.HasMany(course => course.Lessons)
+            //         .WithOne(lesson => lesson.Course)
+            //         .HasForeignKey(lesson => lesson.CourseId);  //Superflua se la proprietà si chiama CourseId
 
                 #region Mapping generato automaticamente dal tool reverse engineering
                 /*
@@ -95,7 +95,7 @@ namespace MyCourse.Models.Services.Infrastructure
                     .HasColumnType("TEXT (100)");
                 */
                 #endregion
-            });
+            //});
 
             modelBuilder.Entity<Lesson>(entity =>
             {

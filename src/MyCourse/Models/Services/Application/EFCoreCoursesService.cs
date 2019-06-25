@@ -25,6 +25,13 @@ namespace MyCourse.Models.Services.Application
                 .Where(course => course.Id == id)
                 .Select(course => CourseDetailViewModel.FromEntity(course));
 
+            //Alternativa con sintassi dichiarativa
+            // IQueryable<CourseDetailViewModel> queryLinq2 = 
+            //     from course in dbContext.Courses.AsNoTracking()
+            //     .Include(course => course.Lessons)
+            //     where course.Id == id
+            //     select CourseDetailViewModel.FromEntity(course);
+
                 // .Select(course => new CourseDetailViewModel {
                 //     Id = course.Id,
                 //     Title = course.Title,
@@ -54,6 +61,10 @@ namespace MyCourse.Models.Services.Application
             IQueryable<CourseViewModel> queryLinq = dbContext.Courses
             .AsNoTracking()
             .Select(course => CourseViewModel.FromEntity(course));
+
+            // IQueryable<CourseViewModel> queryLinq2 =
+            //     from course in dbContext.Courses.AsNoTracking()
+            //     select CourseViewModel.FromEntity(course);
 
             // .Select(course => 
             //     new CourseViewModel {
