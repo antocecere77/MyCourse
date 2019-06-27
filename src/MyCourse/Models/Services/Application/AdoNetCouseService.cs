@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Data;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.Extensions.Options;
+using MyCourse.Models.Options;
 using MyCourse.Models.Services.Infrastructure;
 using MyCourse.Models.ViewModels;
 
@@ -13,11 +15,13 @@ namespace MyCourse.Models.Services.Application
 
         private readonly IDatabaseAccessor db;
         private readonly IMapper mapper;
+        private readonly IOptionsMonitor<CoursesOptions> coursesOptions;
 
-        public AdoNetCouseService(IDatabaseAccessor db, IMapper mapper)
+        public AdoNetCouseService(IDatabaseAccessor db, IMapper mapper, IOptionsMonitor<CoursesOptions> coursesOptions)
         {
             this.db = db;
             this.mapper = mapper;
+            this.coursesOptions = coursesOptions;
         }
 
         public async Task<List<CourseViewModel>> GetCoursesAsync()

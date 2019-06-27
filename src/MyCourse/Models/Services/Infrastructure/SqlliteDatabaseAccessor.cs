@@ -3,11 +3,21 @@ using System.Collections.Generic;
 using System.Data;
 using System.Threading.Tasks;
 using Microsoft.Data.Sqlite;
+using Microsoft.Extensions.Options;
+using MyCourse.Models.Options;
 
 namespace MyCourse.Models.Services.Infrastructure
 {
     public class SqlliteDatabaseAccessor : IDatabaseAccessor
     {
+
+        private IOptionsMonitor<ConnectionStringsOptions> connectionStringsOptions;
+
+        public SqlliteDatabaseAccessor(IOptionsMonitor<ConnectionStringsOptions> connectionStringsOptions)  
+        {
+            this.connectionStringsOptions = connectionStringsOptions;
+        }
+
         public async Task<DataSet> QueryAsync(FormattableString formattableQuery)
         {
 
@@ -20,6 +30,9 @@ namespace MyCourse.Models.Services.Infrastructure
             }
 
             string query = formattableQuery.ToString();
+
+            //Metodo alternativo per recuperare la connection string
+            string connectionString = connectionStringsOptions.CurrentValue.Default;
 
             using(var conn = new SqliteConnection("Data Source=Data/MyCourse.db"))
             {
