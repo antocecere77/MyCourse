@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using MyCourse.Models.Exceptions;
 using MyCourse.Models.Options;
 using MyCourse.Models.Services.Infrastructure;
 using MyCourse.Models.ViewModels;
@@ -56,7 +57,8 @@ namespace MyCourse.Models.Services.Application
             //Coursek
             var courseTable = dataSet.Tables[0];
             if(courseTable.Rows.Count!=1) {
-                throw new InvalidOperationException($"Did nou return exactly 1 row for Course {id}");
+                logger.LogWarning("Course {id} not found", id);
+                throw new CourseNotFoundException(id);
             }
 
             var courseRow = courseTable.Rows[0];
