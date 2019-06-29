@@ -31,8 +31,8 @@ namespace MyCourse
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-            //services.AddTransient<ICourseService, AdoNetCouseService>();
-            services.AddTransient<ICourseService, EFCoreCoursesService>();
+            services.AddTransient<ICourseService, AdoNetCouseService>();
+            //services.AddTransient<ICourseService, EFCoreCoursesService>();
             services.AddTransient<IDatabaseAccessor, SqlliteDatabaseAccessor>();
             services.AddAutoMapper();
 
