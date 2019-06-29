@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using MyCourse.Models.Options;
 using MyCourse.Models.Services.Infrastructure;
@@ -17,11 +18,14 @@ namespace MyCourse.Models.Services.Application
         private readonly IMapper mapper;
         private readonly IOptionsMonitor<CoursesOptions> coursesOptions;
 
-        public AdoNetCouseService(IDatabaseAccessor db, IMapper mapper, IOptionsMonitor<CoursesOptions> coursesOptions)
+        private readonly ILogger<AdoNetCouseService> logger;
+
+        public AdoNetCouseService(ILogger<AdoNetCouseService> logger, IDatabaseAccessor db, IMapper mapper, IOptionsMonitor<CoursesOptions> coursesOptions)
         {
             this.db = db;
             this.mapper = mapper;
             this.coursesOptions = coursesOptions;
+            this.logger = logger;
         }
 
         public async Task<List<CourseViewModel>> GetCoursesAsync()
@@ -41,6 +45,9 @@ namespace MyCourse.Models.Services.Application
 
         public async Task<CourseDetailViewModel> GetCourseAsync(int id)
         {
+
+            logger.LogInformation("Course {id} requested", id);
+
             FormattableString query = $@"SELECT Id, Title, Description, ImagePath, Author, Rating, FullPrice_Amount, FullPrice_Currency, CurrentPrice_Amount, CurrentPrice_Currency FROM Courses WHERE Id= {id}; 
             SELECT Id, Title, Description, Duration FROM Lessons WHERE CourseId= {id}";
 
