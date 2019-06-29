@@ -34,6 +34,8 @@ namespace MyCourse
             services.AddTransient<ICourseService, AdoNetCouseService>();
             //services.AddTransient<ICourseService, EFCoreCoursesService>();
             services.AddTransient<IDatabaseAccessor, SqlliteDatabaseAccessor>();
+            services.AddTransient<ICachedCourseService, MemoryCachedCoursesService>();
+
             services.AddAutoMapper();
 
             //services.AddScoped<MyCourseDbContext>(); //Equivalente alla riga sotto
@@ -45,6 +47,7 @@ namespace MyCourse
 
             //Options
             services.Configure<ConnectionStringsOptions>(Configuration.GetSection("ConnectionStrings"));
+            services.Configure<CachingOptions>(Configuration.GetSection("Caching"));
             services.Configure<CoursesOptions>(Configuration.GetSection("Courses"));
         }
 
