@@ -51,6 +51,26 @@ namespace MyCourse
             services.Configure<CachingOptions>(Configuration.GetSection("Caching"));
             services.Configure<CoursesOptions>(Configuration.GetSection("Courses"));
             services.Configure<MemoryCacheOptions>(Configuration.GetSection("MemoryCache"));
+
+            #region Configurazione del servizio di cache distribuita
+
+            //Se vogliamo usare Redis, ecco le istruzioni per installarlo: https://docs.microsoft.com/it-it/aspnet/core/performance/caching/distributed?view=aspnetcore-2.2#distributed-redis-cache
+            //Bisogna anche installare il pacchetto NuGet: Microsoft.Extensions.Caching.StackExchangeRedis
+            //services.AddStackExchangeRedisCache(options =>
+            //{
+            //    Configuration.Bind("DistributedCache:Redis", options);
+            //});
+            
+            //Se vogliamo usare Sql Server, ecco le istruzioni per preparare la tabella usata per la cache: https://docs.microsoft.com/it-it/aspnet/core/performance/caching/distributed?view=aspnetcore-2.2#distributed-sql-server-cache
+            /*services.AddDistributedSqlServerCache(options => 
+            {
+                Configuration.Bind("DistributedCache:SqlServer", options);
+            });*/
+
+            //Se vogliamo usare la memoria, mentre siamo in sviluppo
+            //services.AddDistributedMemoryCache();
+            
+            #endregion
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
